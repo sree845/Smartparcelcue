@@ -1,0 +1,47 @@
+{% extends 'parcels/base.html' %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow mono">TRACK &middot; BOOK &middot; PICK UP</p>
+  <h1>Skip the queue at the parcel room.</h1>
+  <p class="lead">
+    Register an incoming parcel, book a pickup slot that actually fits your day,
+    and let auto-assignment find you a spot the moment one opens up &mdash;
+    no more guessing when the line will be short.
+  </p>
+  <div class="hero-actions">
+    <a href="{% url 'register_parcel' %}" class="btn btn-primary btn-lg">Register a parcel</a>
+    <a href="{% url 'my_parcels' %}" class="btn btn-secondary btn-lg">View my parcels</a>
+  </div>
+</section>
+
+<section class="feature-grid">
+  <div class="feature card p-4">
+    <div class="feature-num mono">01</div>
+    <h3>Pick a window</h3>
+    <p class="text-muted">Tell us when you're free and we'll show every open slot in that range.</p>
+  </div>
+  <div class="feature card p-4">
+    <div class="feature-num mono">02</div>
+    <h3>Never overbooked</h3>
+    <p class="text-muted">Every booking is capacity-checked at write time, so a slot can never fill past its limit &mdash; even if two people book at once.</p>
+  </div>
+  <div class="feature card p-4">
+    <div class="feature-num mono">03</div>
+    <h3>Auto-assign</h3>
+    <p class="text-muted">If nothing in your window is free, the system finds the next best available slot for you automatically.</p>
+  </div>
+</section>
+
+<style>
+.hero{padding:48px 0 40px;max-width:640px;}
+.eyebrow{color:var(--amber-dark);font-size:12px;font-weight:600;letter-spacing:.12em;margin-bottom:14px;}
+.hero h1{font-size:38px;line-height:1.1;margin-bottom:16px;}
+.hero .lead{font-size:16px;color:var(--ink-soft);line-height:1.6;margin-bottom:28px;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;}
+.feature-num{color:var(--amber);font-size:13px;font-weight:700;margin-bottom:10px;}
+.feature h3{font-size:17px;margin-bottom:8px;}
+.feature p{margin:0;font-size:14px;line-height:1.5;}
+@media (max-width:800px){.feature-grid{grid-template-columns:1fr;} .hero h1{font-size:30px;}}
+</style>
+{% endblock %}

@@ -1,0 +1,22 @@
+<h2>Available Slots</h2>
+{% if available_slots %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="parcel_name" value="{{ form.parcel_name.value }}">
+        <input type="hidden" name="start_time" value="{{ form.start_time.value }}">
+        <input type="hidden" name="end_time" value="{{ form.end_time.value }}">
+        <ul>
+        {% for slot in available_slots %}
+            <li>
+                {{ slot.name }} — {{ slot.start_time }} to {{ slot.end_time }} 
+                ({{ slot.booked_count }}/{{ slot.capacity }})
+                {% if slot.available %}<a href="{% url 'book_slot' parcel_id=parcel.id slot_id=slot.id %}">Book</a>
+                {% else %}(Full){% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+        <button type="submit" class="btn">Confirm Booking</button>
+    </form>
+{% else %}
+    <p>No slots available for this interval.</p>
+{% endif %}

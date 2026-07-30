@@ -1,0 +1,16 @@
+body{font-family:Arial,Helvetica,sans-serif;max-width:980px;margin:20px auto;padding:0 16px;}
+header{display:flex;justify-content:space-between;align-items:center}
+nav a{margin-right:12px;color:#0b5ed7;text-decoration:none}
+nav a.btn{background:#0b5ed7;color:#fff;padding:6px 10px;border-radius:6px}
+h1{margin:0}
+.form-row{margin-bottom:10px}
+.error{color:#b00020}
+.messages .msg{padding:8px;border-radius:6px;margin-bottom:8px}
+.msg.error{background:#ffd6d6}
+.msg.success{background:#d7ffd8}
+.table{width:100%;border-collapse:collapse;margin-top:12px}
+.table th,.table td{border:1px solid #ddd;padding:8px;text-align:left}
+.btn{background:#95f4ff;color:#fff;padding:6px 8px;border-radius:6px;text-decoration:none}
+.note{color:#333;background:#fff2cc;padding:8px;border-left:4px solid #f0c000}
+.slot-list{list-style:none;padding:0}
+.slot-list li{padding:8px;border:1px solid #eee;margin-bottom:8px;border-radius:6px;display:flex;justify-content:space-between;align-items:center}

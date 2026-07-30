@@ -1,0 +1,18 @@
+{% extends 'parcels/base.html' %}
+{% block content %}
+<h2>Update Status for: {{booking.parcel_name}}</h2>
+<form method="post">{% csrf_token %}
+    <div class="mb-3">
+        <label>Select Status:</label>
+        <select name="status" class="form-select">
+            <option value="Pending" {% if booking.status=="Pending" %}selected{% endif %}>Pending</option>
+            <option value="Booked" {% if booking.status=="Booked" %}selected{% endif %}>Booked</option>
+            <option value="Approved" {% if booking.status=="Approved" %}selected{% endif %}>Approved</option>
+            <option value="Completed" {% if booking.status=="Completed" %}selected{% endif %}>Completed</option>
+            <option value="Cancelled" {% if booking.status=="Cancelled" %}selected{% endif %}>Cancelled</option>
+            <option value="Rescheduled" {% if booking.status=="Rescheduled" %}selected{% endif %}>Rescheduled</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Status</button>
+</form>
+{% endblock %}

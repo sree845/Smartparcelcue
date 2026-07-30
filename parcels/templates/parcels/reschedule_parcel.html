@@ -1,0 +1,35 @@
+{% extends 'parcels/base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Reschedule Parcel</h2>
+  <div class="card p-4 shadow-lg rounded-3">
+    <h5 class="mb-3">Current Booking Details</h5>
+    <p><strong>Parcel:</strong> {{ booking.parcel_name }}</p>
+    <p><strong>Receiver:</strong> {{ booking.receiver_name }}</p>
+    <p><strong>Current Slot:</strong> {{ booking.slot.start_time|date:"Y-m-d H:i" }} → {{ booking.slot.end_time|date:"H:i" }}</p>
+    <hr>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="slotSelect" class="form-label"><strong>Select New Slot</strong></label>
+        {% if available_slots %}
+          <select name="slot_id" id="slotSelect" class="form-select" required>
+            {% for slot in available_slots %}
+              <option value="{{ slot.id }}">
+                {{ slot.start_time|date:"Y-m-d H:i" }} → {{ slot.end_time|date:"H:i" }} 
+                (Capacity: {{ slot.capacity }})
+              </option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <p class="text-danger">No available slots to reschedule.</p>
+        {% endif %}
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Confirm Reschedule</button>
+        <a href="{% url 'my_parcels' %}" class="btn btn-secondary ms-2">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

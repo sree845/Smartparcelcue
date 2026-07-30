@@ -1,0 +1,35 @@
+{% extends 'parcels/base.html' %}
+{% block content %}
+<h2>My Parcels</h2>
+{% if parcels %}
+<table>
+    <tr>
+        <th>Parcel Name</th>
+        <th>Slot</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for p in parcels %}
+    <tr>
+        <td>{{ p.parcel_name }}</td>
+        <td>{% if p.slot %}{{ p.slot.name }}{% else %}-{% endif %}</td>
+        <td>{{ p.start_time|date:"M d, Y, H:i" }}</td>
+        <td>{{ p.end_time|date:"M d, Y, H:i" }}</td>
+        <td>{{ p.status }}</td>
+        <td>
+            {% if p.status != "Completed" %}
+                <a href="{% url 'reschedule' p.id %}" class="btn">Reschedule</a>
+                <a href="{% url 'update_status' p.id 'cancel' %}" class="btn" style="background-color: #dc3545;">Cancel</a>
+            {% else %}
+                -
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No parcels registered yet.</p>
+{% endif %}
+{% endblock %}

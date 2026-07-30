@@ -1,0 +1,77 @@
+{% extends "parcels/base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">📦 Register Parcel</h2>
+  {% if messages %}
+    <div>
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <form method="post" class="card p-4 shadow-sm">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="parcel_name" class="form-label">Parcel Name</label>
+      <input type="text" id="parcel_name" name="parcel_name" class="form-control" required value="{{ parcel_name }}">
+    </div>
+    <div class="mb-3">
+      <label for="receiver_name" class="form-label">Receiver Name</label>
+      <input type="text" id="receiver_name" name="receiver_name" class="form-control" required value="{{ receiver_name }}">
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="start_time" class="form-label">Start Time</label>
+        <input type="datetime-local" id="start_time" name="start_time" class="form-control" required value="{{ start_time }}">
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="end_time" class="form-label">End Time</label>
+        <input type="datetime-local" id="end_time" name="end_time" class="form-control" required value="{{ end_time }}">
+      </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" name="check_slots" class="btn btn-primary">Check Available Slots</button>
+    </div>
+  </form>
+  {% if available_slots %}
+    <div class="mt-5">
+      <h4 class="mb-3">Available Slots</h4>
+      <form method="post" class="card p-3 shadow-sm">
+        {% csrf_token %}
+        <input type="hidden" name="parcel_name" value="{{ parcel_name }}">
+        <input type="hidden" name="receiver_name" value="{{ receiver_name }}">
+        <input type="hidden" name="start_time" value="{{ start_time }}">
+        <input type="hidden" name="end_time" value="{{ end_time }}">
+        {% for info in available_slots %}
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="slot" id="slot{{ forloop.counter }}" value="{{ info.slot.id }}" required>
+            <label class="form-check-label" for="slot{{ forloop.counter }}">
+              {{ info.slot.start_time|date:"Y-m-d H:i" }} → {{ info.slot.end_time|date:"H:i" }}
+              (Remaining: {{ info.remaining }})
+            </label>
+          </div>
+        {% endfor %}
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Book Selected Slot</button>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+  {% if no_slots %}
+    <div class="mt-5 text-center card p-4 shadow-sm bg-light">
+      <h4 class="text-danger">No slots available for the selected time range.</h4>
+      <p class="text-muted">You can let the system automatically assign a random slot for you.</p>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="parcel_name" value="{{ parcel_name }}">
+        <input type="hidden" name="receiver_name" value="{{ receiver_name }}">
+        <input type="hidden" name="start_time" value="{{ start_time }}">
+        <input type="hidden" name="end_time" value="{{ end_time }}">
+        <button type="submit" name="auto_assign" class="btn btn-outline-primary btn-lg mt-3">
+          Auto-Assign Existing Slot
+        </button>
+      </form>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

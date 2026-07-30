@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: smartparcelcue
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && mkdir -p data && python manage.py collectstatic --noinput && python manage.py migrate"
+    startCommand: "gunicorn smartparcel.wsgi:application"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
+      - key: DJANGO_DB_NAME
+        value: "data/db.sqlite3"
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+    disk:
+      name: sqlite-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

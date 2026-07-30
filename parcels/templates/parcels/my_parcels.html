@@ -1,0 +1,71 @@
+{% extends "parcels/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">📦 My Parcels</h2>
+  {% if parcels %}
+  <div class="table-responsive shadow-lg rounded-3">
+    <table class="table table-bordered table-striped text-center align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Parcel Name</th>
+          <th>Receiver</th>
+          <th>Slot</th>
+          <th>Status</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in parcels %}
+        <tr>
+          <td>{{ p.parcel_name }}</td>
+          <td>{{ p.receiver_name }}</td>
+          <td>
+            {% if p.slot %}
+              {% if p.slot.name %}
+                {{ p.slot.name }}
+              {% else %}
+                {{ p.slot.start_time|date:"Y-m-d H:i" }} - {{ p.slot.end_time|date:"H:i" }}
+              {% endif %}
+            {% else %}
+              <span class="text-muted">Not Assigned</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if p.status == "Booked" %}
+              <span class="badge bg-primary">{{ p.status }}</span>
+            {% elif p.status == "Auto-Assigned" %}
+              <span class="badge bg-info text-dark">{{ p.status }}</span>
+            {% elif p.status == "Rescheduled" %}
+              <span class="badge bg-warning text-dark">{{ p.status }}</span>
+            {% elif p.status == "Cancelled" %}
+              <span class="badge bg-danger">{{ p.status }}</span>
+            {% elif p.status == "Delivered" %}
+              <span class="badge bg-success">{{ p.status }}</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ p.status }}</span>
+            {% endif %}
+          </td>
+          <td>{{ p.start_time|date:"Y-m-d H:i" }}</td>
+          <td>{{ p.end_time|date:"Y-m-d H:i" }}</td>
+          <td>
+            {% if p.status not in "Cancelled,Delivered" %}
+              <a href="{% url 'cancel_parcel' p.id %}" class="btn btn-danger btn-sm">Cancel</a>
+              <a href="{% url 'reschedule_parcel' p.id %}" class="btn btn-warning btn-sm">Reschedule</a>
+              <a href="{% url 'update_status' p.id %}" class="btn btn-success btn-sm">Mark Delivered</a>
+            {% else %}
+              <span class="text-muted">No Actions</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info text-center">No parcels booked yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

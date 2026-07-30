@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Smart Parcel Cue{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ---------- Design tokens ---------- */
+:root{
+  --paper:#F6F3EC;
+  --ink:#1C2430;
+  --ink-soft:#5B6472;
+  --line:#E3DDCE;
+  --amber:#C65D2E;
+  --amber-dark:#A94A22;
+  --amber-tint:#F3DFCF;
+  --green:#3F7D58;
+  --green-tint:#DCEBE0;
+  --red:#B23A3A;
+  --red-tint:#F4DCDC;
+  --blue:#3B5E8A;
+  --blue-tint:#DDE6F0;
+  --gold:#C69B3A;
+  --gold-tint:#F2E7CB;
+  --card:#FFFFFF;
+  --radius:10px;
+  --shadow:0 1px 2px rgba(28,36,48,.06), 0 6px 16px rgba(28,36,48,.06);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,sans-serif;
+  background:
+    linear-gradient(180deg, rgba(198,93,46,.05), rgba(198,93,46,0) 220px),
+    var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+}
+h1,h2,h3,h4{
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-weight:600;
+  letter-spacing:-0.01em;
+  margin:0 0 .5em;
+}
+a{color:var(--amber-dark);}
+.mono{font-family:'IBM Plex Mono',monospace;}
+
+/* ---------- Header / nav ---------- */
+header.site{
+  background:var(--ink);
+  color:#fff;
+  padding:0;
+  border-bottom:3px solid var(--amber);
+}
+.header-inner{
+  max-width:1080px;
+  margin:0 auto;
+  padding:16px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  color:#fff;
+  text-decoration:none;
+}
+.brand-mark{
+  width:34px;height:34px;
+  border-radius:8px;
+  background:var(--amber);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  transform:rotate(-4deg);
+  box-shadow:0 2px 0 var(--amber-dark);
+}
+nav.site-nav{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
+nav.site-nav a{
+  color:rgba(255,255,255,.82);
+  text-decoration:none;
+  font-weight:500;
+  font-size:14px;
+  padding:8px 12px;
+  border-radius:7px;
+  transition:background .15s,color .15s;
+}
+nav.site-nav a:hover{background:rgba(255,255,255,.1);color:#fff;}
+nav.site-nav a.logout{
+  background:var(--red);
+  color:#fff;
+}
+nav.site-nav a.logout:hover{background:#962f2f;}
+
+main{max-width:1080px;margin:0 auto;padding:32px 24px 64px;}
+.container{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 18px;
+  font-family:'Inter',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  border-radius:8px;
+  border:1px solid transparent;
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .05s ease, box-shadow .15s ease, opacity .15s ease;
+  box-shadow:0 2px 0 rgba(0,0,0,.15);
+}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.15);}
+.btn-primary,.btn.btn-primary{background:var(--amber);color:#fff;box-shadow:0 2px 0 var(--amber-dark);}
+.btn-primary:hover{opacity:.94;}
+.btn-secondary{background:#fff;color:var(--ink);border-color:var(--line);box-shadow:0 2px 0 var(--line);}
+.btn-success{background:var(--green);color:#fff;box-shadow:0 2px 0 #2c5c40;}
+.btn-danger{background:var(--red);color:#fff;box-shadow:0 2px 0 #8a2c2c;}
+.btn-warning{background:var(--gold);color:#3a2c05;box-shadow:0 2px 0 #a17c22;}
+.btn-outline-primary{background:transparent;color:var(--amber-dark);border-color:var(--amber);box-shadow:none;}
+.btn-outline-primary:hover{background:var(--amber-tint);}
+.btn-link{background:none;box-shadow:none;color:var(--amber-dark);padding:10px 4px;}
+.btn-sm{padding:6px 12px;font-size:13px;box-shadow:0 1px 0 rgba(0,0,0,.15);}
+.btn-lg{padding:14px 26px;font-size:16px;}
+.ms-2{margin-left:8px;}
+
+/* ---------- Cards / layout helpers ---------- */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.p-3{padding:16px;} .p-4{padding:24px;}
+.mt-2{margin-top:8px;} .mt-3{margin-top:16px;} .mt-4{margin-top:24px;} .mt-5{margin-top:40px;}
+.mb-2{margin-bottom:8px;} .mb-3{margin-bottom:16px;} .mb-4{margin-bottom:24px;}
+.text-center{text-align:center;}
+.text-muted{color:var(--ink-soft);}
+.text-danger{color:var(--red);}
+.shadow-sm,.shadow-lg{box-shadow:var(--shadow);}
+.rounded-3{border-radius:var(--radius);}
+.d-flex{display:flex;} .justify-content-between{justify-content:space-between;} .align-items-center{align-items:center;}
+.row{display:flex;flex-wrap:wrap;margin:0 -8px;}
+.col-md-6{flex:1 1 260px;padding:0 8px;}
+hr{border:none;border-top:1px solid var(--line);margin:16px 0;}
+
+/* ---------- Forms ---------- */
+form label,.form-label{display:block;font-weight:600;font-size:13px;margin-bottom:6px;color:var(--ink);}
+input[type=text],input[type=password],input[type=email],input[type=number],
+input[type=datetime-local],select,.form-control,.form-select{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  color:var(--ink);
+}
+input:focus,select:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
+.form-check{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:#fff;}
+.form-check:hover{border-color:var(--amber);}
+.form-check-input{width:auto;}
+.form-check-label{font-weight:500;font-size:14px;margin:0;}
+
+/* ---------- Alerts / messages ---------- */
+.alert{padding:12px 16px;border-radius:8px;font-size:14px;margin-bottom:12px;border:1px solid transparent;}
+.alert-success{background:var(--green-tint);color:#274a35;border-color:#bfe0cc;}
+.alert-danger,.alert-error{background:var(--red-tint);color:#7a2626;border-color:#e6bcbc;}
+.alert-info{background:var(--blue-tint);color:#28405c;border-color:#c3d4e6;}
+.alert-warning{background:var(--gold-tint);color:#5c451a;border-color:#e6cf9c;}
+
+/* ---------- Tables ---------- */
+.table-responsive{overflow-x:auto;}
+table{border-collapse:collapse;width:100%;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:center;font-size:14px;}
+thead th,.table-dark th{background:var(--ink);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;letter-spacing:.03em;text-transform:uppercase;}
+.table-striped tbody tr:nth-child(even){background:#FAF8F2;}
+tbody tr:hover{background:var(--amber-tint);}
+
+/* ---------- Badges (status "stamps") ---------- */
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;
+}
+.bg-primary{background:var(--blue-tint);color:var(--blue);}
+.bg-info{background:var(--blue-tint);color:var(--blue);}
+.bg-success{background:var(--green-tint);color:var(--green);}
+.bg-warning{background:var(--gold-tint);color:#7a5c15;}
+.bg-danger{background:var(--red-tint);color:var(--red);}
+.bg-secondary{background:#EDEAE0;color:var(--ink-soft);}
+
+/* ---------- List group ---------- */
+.list-group{list-style:none;margin:0;padding:0;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.list-group-item{background:#fff;padding:14px 16px;border-bottom:1px solid var(--line);}
+.list-group-item:last-child{border-bottom:none;}
+
+@media (max-width:600px){
+  .header-inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="header-inner">
+    <a class="brand" href="{% url 'home' %}">
+      <span class="brand-mark">📦</span> Smart Parcel Cue
+    </a>
+    <nav class="site-nav">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'register_parcel' %}">Register Parcel</a>
+        <a href="{% url 'my_parcels' %}">My Parcels</a>
+        <a href="{% url 'logout' %}" class="logout">Log out</a>
+    </nav>
+  </div>
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+</body>
+</html>
