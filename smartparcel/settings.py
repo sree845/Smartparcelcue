@@ -107,11 +107,18 @@ WSGI_APPLICATION = "smartparcel.wsgi.application"
 
 
 
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Resolve SQLite path dynamically or default to local db.sqlite3
+db_name = os.getenv('DJANGO_DB_NAME', 'db.sqlite3')
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / os.environ.get("DJANGO_DB_NAME", "db.sqlite3"),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / db_name,
     }
 }
 # Password validation
