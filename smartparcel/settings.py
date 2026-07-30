@@ -41,15 +41,19 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env_bool("DJANGO_DEBUG", default=True)
 
+
+import os
+
 ALLOWED_HOSTS = [
-    h.strip()
-    for h in os.environ.get(
-        "DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,.ngrok-free.dev"
-    ).split(",")
-    if h.strip()
+    '127.0.0.1',
+    'localhost',
+    '.ngrok-free.dev',
+    '.vercel.app',  # Wildcard for all Vercel deployments
 ]
 
-
+# Optional: Add any custom domain from environment variables
+if 'VERCEL_URL' in os.environ:
+    ALLOWED_HOSTS.append(os.environ['VERCEL_URL'])
 # Application definition
 
 INSTALLED_APPS = [
